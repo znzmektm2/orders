@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class OrderPlaced implements Serializable {
 
     private String type;
-    private String stateMessage = "주문이 들어옴";
+    private String stateMessage = "주문이 발생함";
 
     private Long productId;
     private Long orderId;
