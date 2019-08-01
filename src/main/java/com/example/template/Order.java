@@ -6,6 +6,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.BeanUtils;
 import org.springframework.kafka.core.KafkaTemplate;
 
+import java.util.Map;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,29 +16,28 @@ public class Order {
 
     @Id
     @GeneratedValue
-    private Long id;
-    private Long productId;
-    private String productName;
-    private int quantity;
-    private int price;
-    private String customerName;
-    private String customerAddr;
+    private Long code;
+    private String userId;
+    private String uerAddr;
+    private String paymentType;
+    private double total;
+    private Map<String, Integer> map;  //key=productCode, value=quantity;
 
     /**
      * 주문이 들어옴
      */
     @PostPersist
-    private void publishOrderPlaced() {
+    private void publishOrderRequested() {
         KafkaTemplate kafkaTemplate = Application.applicationContext.getBean(KafkaTemplate.class);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
 
-        OrderPlaced orderPlaced = new OrderPlaced();
+        OrderRequested orderRequested = new OrderRequested();
         try {
-            orderPlaced.setOrderId(id);
-            BeanUtils.copyProperties(this, orderPlaced);
-            json = objectMapper.writeValueAsString(orderPlaced);
+        	orderRequested.setCode(code);
+            BeanUtils.copyProperties(this, orderRequested);
+            json = objectMapper.writeValueAsString(orderRequested);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON format exception", e);
         }
@@ -45,51 +46,53 @@ public class Order {
         kafkaTemplate.send(producerRecord);
     }
 
-    public Long getProductId() {
-        return productId;
-    }
+	public Long getCode() {
+		return code;
+	}
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
+	public void setCode(Long code) {
+		this.code = code;
+	}
 
-    public String getProductName() {
-        return productName;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-    public int getQuantity() {
-        return quantity;
-    }
+	public String getUerAddr() {
+		return uerAddr;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public void setUerAddr(String uerAddr) {
+		this.uerAddr = uerAddr;
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public String getPaymentType() {
+		return paymentType;
+	}
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
 
-    public String getCustomerName() {
-        return customerName;
-    }
+	public double getTotal() {
+		return total;
+	}
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+	public void setTotal(double total) {
+		this.total = total;
+	}
 
-    public String getCustomerAddr() {
-        return customerAddr;
-    }
+	public Map<String, Integer> getMap() {
+		return map;
+	}
 
-    public void setCustomerAddr(String customerAddr) {
-        this.customerAddr = customerAddr;
-    }
+	public void setMap(Map<String, Integer> map) {
+		this.map = map;
+	}
+
+    
 }
