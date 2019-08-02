@@ -9,8 +9,6 @@ public class PaymentRequested {
 	
 	    private Long code;
 	    private String userId;
-	    
-	    //private Map<String, Integer> map;  //key=productCode, value=quantity;
 	    private String productCode;
 	    private int quantity;
 	    

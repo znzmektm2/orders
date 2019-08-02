@@ -15,9 +15,6 @@ public class Application {
     protected static ApplicationContext applicationContext;
     public static void main(String[] args) {
         applicationContext = SpringApplication.run(Application.class, args);
-        
-        OrderService orderService = applicationContext.getBean(OrderService.class);
-        orderService.getProducts();
     }
     
     @Bean

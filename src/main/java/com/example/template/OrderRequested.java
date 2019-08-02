@@ -10,7 +10,6 @@ public class OrderRequested implements Serializable {
 
     private Long code;
     private String userId;
-//    private Map<String, Integer> map;
     private double total;//price*quantity 총가격
     private String productCode;
     private int quantity;
@@ -51,8 +50,6 @@ public class OrderRequested implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-
 
 	public double getTotal() {
 		return total;

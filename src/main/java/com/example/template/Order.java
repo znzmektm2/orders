@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +29,8 @@ public class Order {
     private int quantity;
     private String type;
     
-    
-    //private Map<String, Integer> map;  //key=productCode, value=quantity;
-
+    @Autowired(required = true)
+	private RestTemplate restTemplate;
     
     /**
      * 주문이 들어옴
@@ -47,9 +49,12 @@ public class Order {
         	orderRequested.setProductCode(productCode);
         	orderRequested.setQuantity(quantity);
         	
-        	//product 테이블에서 가격을 가져와야 됨
-        	int price=2500;
-        	orderRequested.setTotal(quantity*price);
+        	//product 테이블에서 가격을 가져오기
+        	final String baseUrl = "http://192.168.0.116:8085/products/1";
+    	    HttpHeaders headers = new HttpHeaders();
+    	    Product product = restTemplate.getForObject(baseUrl, Product.class);
+    	    int productPrice = product.getPrice();
+        	orderRequested.setTotal(quantity*productPrice);
         	
             BeanUtils.copyProperties(this, orderRequested);
             json = objectMapper.writeValueAsString(orderRequested);
