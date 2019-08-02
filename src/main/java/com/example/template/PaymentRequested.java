@@ -12,6 +12,10 @@ public class PaymentRequested {
 	    private String productCode;
 	    private int quantity;
 	    
+	    public PaymentRequested(){
+	        this.setType(this.getClass().getSimpleName());
+	    }
+	    
 		public String getType() {
 			return type;
 		}
