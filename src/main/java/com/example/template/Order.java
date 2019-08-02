@@ -28,9 +28,7 @@ public class Order {
     private String productCode;
     private int quantity;
     private String type;
-    
-    @Autowired(required = true)
-	private RestTemplate restTemplate;
+
     
     /**
      * 주문이 들어옴
@@ -44,23 +42,25 @@ public class Order {
 
         OrderRequested orderRequested = new OrderRequested();
         try {
-//        	orderRequested.setCode(code);
-//        	orderRequested.setUserId(userId);
-//        	orderRequested.setProductCode(productCode);
-//        	orderRequested.setQuantity(quantity);
+        	orderRequested.setCode(code);
+        	orderRequested.setUserId(userId);
+        	orderRequested.setProductCode(productCode);
+        	orderRequested.setQuantity(quantity);
         	
-        	//product 테이블에서 가격을 가져오기
-//        	final String baseUrl = "http://192.168.0.116:8085/products/1";
-//    	    HttpHeaders headers = new HttpHeaders();
-//    	    Product product = restTemplate.getForObject(baseUrl, Product.class);
-//    	    int productPrice = product.getPrice();
-//        	orderRequested.setTotal(quantity*productPrice);
+        	RestTemplate restTemplate = Application.applicationContext.getBean(RestTemplate.class);
+        	
+      	//product 테이블에서 가격을 가져오기
+        	final String baseUrl = "http://192.168.0.116:8085/products/1";
+    	    HttpHeaders headers = new HttpHeaders();
+    	    Product product = restTemplate.getForObject(baseUrl, Product.class);
+    	    int productPrice = product.getPrice();
+        	orderRequested.setTotal(quantity*productPrice);
         	
         	
-        	    orderRequested.setCode(1001L);
-        	    orderRequested.setUserId("js");
-        	    orderRequested.setProductCode("1");
-        	   orderRequested.setTotal(100000);
+//        	    orderRequested.setCode(1001L);
+//        	    orderRequested.setUserId("js");
+//        	    orderRequested.setProductCode("1");
+//        	   orderRequested.setTotal(100000);
         	
             BeanUtils.copyProperties(this, orderRequested);
             json = objectMapper.writeValueAsString(orderRequested);
