@@ -9,8 +9,10 @@ public class PaymentRequested {
 	
 	    private Long code;
 	    private String userId;
-	    private String paymentType;
-	    private Map<String, Integer> map;  //key=productCode, value=quantity;
+	    
+	    //private Map<String, Integer> map;  //key=productCode, value=quantity;
+	    private String productCode;
+	    private int quantity;
 	    
 		public String getType() {
 			return type;
@@ -36,18 +38,20 @@ public class PaymentRequested {
 		public void setUserId(String userId) {
 			this.userId = userId;
 		}
-		public String getPaymentType() {
-			return paymentType;
+		
+		public String getProductCode() {
+			return productCode;
 		}
-		public void setPaymentType(String paymentType) {
-			this.paymentType = paymentType;
+		public void setProductCode(String productCode) {
+			this.productCode = productCode;
 		}
-		public Map<String, Integer> getMap() {
-			return map;
+		public int getQuantity() {
+			return quantity;
 		}
-		public void setMap(Map<String, Integer> map) {
-			this.map = map;
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
 		}
+		
 
 	    
 }

@@ -10,8 +10,11 @@ public class OrderRequested implements Serializable {
 
     private Long code;
     private String userId;
-    private Map<String, Integer> map;
-    private double total;
+//    private Map<String, Integer> map;
+    private double total;//price*quantity 총가격
+    private String productCode;
+    private int quantity;
+    
 
     public OrderRequested(){
         this.setType(this.getClass().getSimpleName());
@@ -49,13 +52,7 @@ public class OrderRequested implements Serializable {
 		this.userId = userId;
 	}
 
-	public Map<String, Integer> getMap() {
-		return map;
-	}
 
-	public void setMap(Map<String, Integer> map) {
-		this.map = map;
-	}
 
 	public double getTotal() {
 		return total;
@@ -64,5 +61,23 @@ public class OrderRequested implements Serializable {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
+	
 
 }

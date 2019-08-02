@@ -9,7 +9,9 @@ public class OrderModified {
     
     private Long code;
     private String userAddr;
-    private Map<String, Integer> map;  //key=productCode, value=quantity;
+    //private Map<String, Integer> map;  //key=productCode, value=quantity;
+    private String productCode;
+    private int quantity;
 	public Long getCode() {
 		return code;
 	}
@@ -40,12 +42,23 @@ public class OrderModified {
 	public void setUserAddr(String userAddr) {
 		this.userAddr = userAddr;
 	}
-	public Map<String, Integer> getMap() {
-		return map;
+
+	public String getProductCode() {
+		return productCode;
 	}
-	public void setMap(Map<String, Integer> map) {
-		this.map = map;
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
     
     
 }

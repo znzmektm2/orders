@@ -24,14 +24,16 @@ public class Order {
     private double total;
     private String productCode;
     private int quantity;
+    private String type;
     
-    private Map<String, Integer> map;  //key=productCode, value=quantity;
+    
+    //private Map<String, Integer> map;  //key=productCode, value=quantity;
 
     
     /**
      * 주문이 들어옴
      */
-    @PostPersist
+    @PostLoad
     private void publishOrderRequested() {
         KafkaTemplate kafkaTemplate = Application.applicationContext.getBean(KafkaTemplate.class);
 
@@ -42,8 +44,8 @@ public class Order {
         try {
         	orderRequested.setCode(code);
         	orderRequested.setUserId(userId);
-        	map.put(productCode, quantity);        	
-        	orderRequested.setMap(map);
+        	orderRequested.setProductCode(productCode);
+        	orderRequested.setQuantity(quantity);
         	
         	//product 테이블에서 가격을 가져와야 됨
         	int price=2500;
@@ -73,6 +75,10 @@ public class Order {
         PaymentRequested paymentRequested = new PaymentRequested();
         try {
         	paymentRequested.setCode(code);
+        	paymentRequested.setUserId(userId);
+        	paymentRequested.setType(type);
+        	paymentRequested.setProductCode(productCode);
+        	paymentRequested.setQuantity(quantity);
             BeanUtils.copyProperties(this, paymentRequested);
             json = objectMapper.writeValueAsString(paymentRequested);
         } catch (JsonProcessingException e) {
@@ -87,7 +93,7 @@ public class Order {
     /**
      * 주문이 수정됨
      */
-    @PostPersist
+    @PostUpdate
     private void publishOrderModified() {
         KafkaTemplate kafkaTemplate = Application.applicationContext.getBean(KafkaTemplate.class);
 
@@ -97,6 +103,9 @@ public class Order {
         OrderModified orderModified = new OrderModified();
         try {
         	orderModified.setCode(code);
+        	orderModified.setType(type);
+        	orderModified.setProductCode(productCode);
+        	orderModified.setQuantity(quantity);
             BeanUtils.copyProperties(this, orderModified);
             json = objectMapper.writeValueAsString(orderModified);
         } catch (JsonProcessingException e) {
@@ -110,7 +119,7 @@ public class Order {
     /**
      * 주문이 취소됨
      */
-    @PostPersist
+    @PostRemove
     private void publishOrderDeleted() {
         KafkaTemplate kafkaTemplate = Application.applicationContext.getBean(KafkaTemplate.class);
 
@@ -120,6 +129,7 @@ public class Order {
         OrderDeleted orderDeleted = new OrderDeleted();
         try {
         	orderDeleted.setCode(code);
+        	orderDeleted.setProductCode(productCode);
             BeanUtils.copyProperties(this, orderDeleted);
             json = objectMapper.writeValueAsString(orderDeleted);
         } catch (JsonProcessingException e) {
@@ -201,14 +211,7 @@ public class Order {
 	}
 
 
-	public Map<String, Integer> getMap() {
-		return map;
-	}
-
-
-	public void setMap(Map<String, Integer> map) {
-		this.map = map;
-	}
+	
     
 
 }

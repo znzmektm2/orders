@@ -4,12 +4,14 @@ import java.util.Map;
 
 public class OrderDeleted {
 
-	   private String type;
+	    private String type;
 	    private String stateMessage = "주문이 삭제됨";
 	    
 	    private Long code;
 	    private String userId;
-	    private Map<String, Integer> map;  //key=productCode, value=quantity;
+	    //private Map<String, Integer> map;  //key=productCode, value=quantity;
+	    private String productCode;
+	    private int quantity;
 	    
 	    public OrderDeleted(){
 	        this.setType(this.getClass().getSimpleName());
@@ -38,10 +40,17 @@ public class OrderDeleted {
 		public void setUserId(String userId) {
 			this.userId = userId;
 		}
-		public Map<String, Integer> getMap() {
-			return map;
+		public String getProductCode() {
+			return productCode;
 		}
-		public void setMap(Map<String, Integer> map) {
-			this.map = map;
+		public void setProductCode(String productCode) {
+			this.productCode = productCode;
 		}
+		public int getQuantity() {
+			return quantity;
+		}
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
+		}
+		
 }
