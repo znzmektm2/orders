@@ -84,7 +84,9 @@ public class Order {
         String json = null;
 
         PaymentRequested paymentRequested = new PaymentRequested();
+        
         try {
+        	paymentRequested.setType(PaymentRequested.class.getSimpleName());
         	paymentRequested.setCode(code);
         	paymentRequested.setUserId(userId);
         	paymentRequested.setType(type);
