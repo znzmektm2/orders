@@ -44,17 +44,23 @@ public class Order {
 
         OrderRequested orderRequested = new OrderRequested();
         try {
-        	orderRequested.setCode(code);
-        	orderRequested.setUserId(userId);
-        	orderRequested.setProductCode(productCode);
-        	orderRequested.setQuantity(quantity);
+//        	orderRequested.setCode(code);
+//        	orderRequested.setUserId(userId);
+//        	orderRequested.setProductCode(productCode);
+//        	orderRequested.setQuantity(quantity);
         	
         	//product 테이블에서 가격을 가져오기
-        	final String baseUrl = "http://192.168.0.116:8085/products/1";
-    	    HttpHeaders headers = new HttpHeaders();
-    	    Product product = restTemplate.getForObject(baseUrl, Product.class);
-    	    int productPrice = product.getPrice();
-        	orderRequested.setTotal(quantity*productPrice);
+//        	final String baseUrl = "http://192.168.0.116:8085/products/1";
+//    	    HttpHeaders headers = new HttpHeaders();
+//    	    Product product = restTemplate.getForObject(baseUrl, Product.class);
+//    	    int productPrice = product.getPrice();
+//        	orderRequested.setTotal(quantity*productPrice);
+        	
+        	
+        	    orderRequested.setCode(1001L);
+        	    orderRequested.setUserId("js");
+        	    orderRequested.setProductCode("1");
+        	   orderRequested.setTotal(100000);
         	
             BeanUtils.copyProperties(this, orderRequested);
             json = objectMapper.writeValueAsString(orderRequested);
